@@ -1,12 +1,14 @@
-from spy_details import spy_name, spy_salutation, spy_age, spy_rating
+from spy_details import spy
 import sys
 print "hello "
 print "welcome to spychat "
 
-question = "Do you want to continue as " + spy_salutation + " " + spy_name + " (Y/N)? "
+question = "Do you want to continue as " + spy['salutation'] + " " + spy['name'] + " (Y/N)? "
 existing = raw_input(question)
 
 STATUS_MESSAGES = ['My name is Bond, James Bond', 'Shaken, not stirred.']
+
+friends = []
 
 def add_status(current_status_message):
     if current_status_message != None:
@@ -35,18 +37,26 @@ def add_status(current_status_message):
 
 
 def add_friends():
-    new_name = raw_input("Please add your friend's name:")
-    new_salutation = raw_input("Are they Mr. or Ms.?: ")
-    new_name = new_name + " " + new_salutation
-    new_age = input("Age?")
-    new_rating = input("Spy rating?")
+    new_friend = {
+        'name': '',
+        'salutation': '',
+        'age': 0,
+        'rating': 0.0
+    }
+    new_friend['name'] = input("Please add your friend's name: ")
+    new_friend['salutation'] = input("Are they Mr. or Ms.?: ")
+    new_friend['name'] = new_friend['salutation'] + " " + new_friend['name']
 
-    if len(new_name) > 0 and new_age > 12 and new_rating >= spy_rating:
-       pass
+    new_friend['age'] = input("Age?")
+    new_friend['rating'] = input("Spy rating?")
+
+    if len(new_friend['name']) > 0 and new_friend['age'] > 12 and new_friend['rating'] >= spy['rating']:
+        friends.append(new_friend)
+        print 'Friend Added!'
     else:
         print 'Sorry! Invalid entry. We can\'t add spy with the details you provided'
-
-def start_chat(spy_name,spy_age, spy_rating):
+    return len(friends)
+def start_chat(spy):
     current_status_message = None
 
     print "What do you want to do? \n 1. Add a status update\n 2. add friends "
@@ -64,7 +74,7 @@ def start_chat(spy_name,spy_age, spy_rating):
 
 if (existing == "Y"):
   #Continue with the default user/details imported from the helper file.
-    start_chat(spy_name,spy_age,spy_rating)
+    start_chat(spy)
 else:
 
 
