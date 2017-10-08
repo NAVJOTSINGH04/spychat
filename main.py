@@ -1,5 +1,8 @@
 from spy_details import spy
+from steganography.steganography import Steganography
+from datetime import datetime
 import sys
+
 print "hello "
 print "welcome to spychat "
 
@@ -10,13 +13,14 @@ STATUS_MESSAGES = ['My name is Bond, James Bond', 'Shaken, not stirred.']
 
 friends = []
 
+
 def add_status(current_status_message):
     if current_status_message != None:
         print "Your current status message is " + current_status_message + "\n"
     else:
         print 'You don\'t have any status message currently \n'
 
-    default = input("Do you want to select from the older status (y/n)? ")
+    default =raw_input("Do you want to select from the older status (y/n)? ")
 
     if default.upper() == "N":
         new_status_message = input("What status message do you want to set? ")
@@ -56,6 +60,36 @@ def add_friends():
     else:
         print 'Sorry! Invalid entry. We can\'t add spy with the details you provided'
     return len(friends)
+
+
+def select_friend():
+    item_number = 0
+
+    for friend in friends:
+        print '%d. %s' % (item_number + 1), friend['name']
+
+        item_number = item_number + 1
+
+    friend_choice = raw_input("Choose from your friends")
+    friend_choice_position = friend_choice - 1
+
+    return friend_choice_position
+
+
+def send_message():
+    friend_choice = select_a_friend()
+    # asking for user data
+    original_image = raw_input("What is the name of the image?")
+    output_path = 'output.jpg'
+    text = input("What do you want to say?")
+    Steganography.encode(original_image, output_path, text)
+
+def read_message():
+  sender = select_a_friend()
+
+  output_path = input("What is the name of the file?")
+  secret_text = Steganography.decode(output_path)
+
 def start_chat(spy):
     current_status_message = None
 
@@ -63,62 +97,49 @@ def start_chat(spy):
     menu_choice = int(raw_input("enter you choise"))
 
     if (menu_choice == 1):
-        current_status_message= add_status(current_status_message)
+        current_status_message = add_status(current_status_message)
     elif menu_choice == 2:
-        add_friends()
+       friend_number = add_friends()
+       print "You have {} friends.".format(friend_number)
     else:
         pass
 
 
-
-
-if (existing == "Y"):
-  #Continue with the default user/details imported from the helper file.
+if existing == "Y":
+    # Continue with the default user/details imported from the helper file.
     start_chat(spy)
 else:
 
-
-    spy_name=raw_input("what is your spy_name")
-    #raw_input =this will convert user input into  a string
-    if len(spy_name)>0:
+    spy_name = raw_input("what is your spy_name")
+    # raw_input =this will convert user input into  a string
+    if len(spy_name) > 0:
         # if statement to check the length of string passed is grater than 0.... just bcz there should be a name
-        print "welcome"+spy_name
-        spy_salutation=raw_input("should i call you Mr.or Miss. ")
-        print "Alright "+ spy_salutation+spy_name+" I would like to know more about you"
+        print "welcome" + spy_name
+        spy_salutation = raw_input("should i call you Mr.or Miss. ")
+        print "Alright " + spy_salutation + spy_name + " I would like to know more about you"
     else:
         print "binna naaam k spy hai kya"
 
+    spy_age = 0
+    spy_rating = 0.0
+    spy_is_online = False
+    # to initialise them
+    spy_age = input("what  is your age ?:")
 
-    spy_age=0
-    spy_rating=0.0
-    spy_is_online=False
-    #to initialise them
-    spy_age=input("what  is your age ?:")
-
-    if spy_age >20 and spy_age<50:
-        spy_rating=input("what is your spy rating?:")
-        spy_rating=float(spy_rating)
-        if spy_rating>4.5 and spy_rating<5:
+    if spy_age > 20 and spy_age < 50:
+        spy_rating = input("what is your spy rating?:")
+        spy_rating = float(spy_rating)
+        if spy_rating > 4.5 and spy_rating < 5:
             print"you are the best"
 
-    if spy_rating>3.5 and spy_rating<=4.5:
-                print"you can do it"
+    if spy_rating > 3.5 and spy_rating <= 4.5:
+        print"you can do it"
 
-    if spy_rating>2.5 and spy_rating<=3.5:
-                  print"work hard"
-                  #sari if statement bahr rakhni hai . it should not  be in other if statement
-    spy_is_online=True
-    print"Authentication complete.Welcome " +spy_name+ " age: "+str(spy_age) +" rating: "+str(spy_rating)+" proud to have you back."
+    if spy_rating > 2.5 and spy_rating <= 3.5:
+        print"work hard"
+        # sari if statement bahr rakhni hai . it should not  be in other if statement
+    spy_is_online = True
+    print"Authentication complete.Welcome " + spy_name + " age: " + str(spy_age) + " rating: " + str(
+        spy_rating) + " proud to have you back."
 
-start_chat(spy_name,spy_age,spy_rating)
-
-
-
-
-
-
-
-
-
-
-
+    start_chat(spy)
