@@ -84,11 +84,33 @@ def send_message():
     text = input("What do you want to say?")
     Steganography.encode(original_image, output_path, text)
 
+    new_chat = {
+        "message": text,
+        "time": datetime.now(),
+        "sent_by_me": True
+    }
+
+    friends[friend_choice]['chats'].append(new_chat)
+
+    print "Your secret message image is ready!"
+
+
 def read_message():
   sender = select_a_friend()
 
   output_path = input("What is the name of the file?")
   secret_text = Steganography.decode(output_path)
+
+  new_chat = {
+      "message": secret_text,
+      "time": datetime.now(),
+      "sent_by_me": False
+  }
+
+  friends[sender]['chats'].append(new_chat)
+
+  print "Your secret message has been saved!"
+
 
 def start_chat(spy):
     current_status_message = None
